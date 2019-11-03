@@ -14,7 +14,6 @@ from urllib.parse import urljoin
 from urllib.parse import urldefrag
 from bs4 import BeautifulSoup
 #ページから本文を抜き出すlibrary
-from readability.readability import Document
 from extractcontent3 import ExtractContent
 
 #textrankによりkeywordを抽出するlibirary
@@ -84,12 +83,12 @@ class Scraping:
                if url in [r+"index.html" for r in result]:continue
                if link_text.strip():
                    link.setdefault('link_url',{})
-                   link['link_url'].setdefault(link_text.strip(),url)
-                   #if url not in link['link_url'].values():
-                       #link['link_url'][link_text]=url
+                   if url not in link['link_url'].values():
+                       link['link_url'].setdefault(link_text.strip(),url)
                elif link_alt.strip():
                    link.setdefault('link_url',{})
-                   link['link_url'].setdefault(link_alt.strip(),url)
+                   if url not in link['link_url'].values():
+                       link['link_url'].setdefault(link_alt.strip(),url)
                    #if url not in link['link_url'].values():
                        #link['link_url'][link_alt]=url
 
@@ -254,7 +253,7 @@ class Crawler:
     async def process(self, url):
         self.todo.remove(url)
         self.busy.add(url)
-        print(url+" is progress...")
+        #print(url+" is progress...")
         try:
             resp = await self.session.get(url)
         except Exception as exc:
