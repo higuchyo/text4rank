@@ -24,7 +24,7 @@ def query():
         q_add = 'allintext:' + a + ' ' + q + ' 企業'
         max_num = request.args.get('max_num',default=20,type=int)
         # read engineID
-        f = open('google_id/id_key.json')
+        f = open('data/engine.json')
         s = json.load(f)
 
         for i in range(len(s['engine'])) :

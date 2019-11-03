@@ -1,0 +1,11 @@
+{
+  "engine":[
+  {
+    "engine_1":{
+		  "name":"higuchyo",
+      "key":<input your key>,
+		  "cx":<input your cx>
+		}
+  }
+  ]
+  }
