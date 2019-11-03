@@ -1,0 +1,123 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Company Search{% endblock %}
+
+{% block head %}
+  {{super()}}
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--  <link href="/static/images/branding/google_shortcut.ico" rel="shortcut icon">  -->
+  <link href="/static/css/index.css" type="text/css" rel="stylesheet" >
+  <!-- <script src="http://cdn.rawgit.com/phi-jp/phina.js/v0.2.0/build/phina.js"></script> -->
+{% endblock %}
+
+{% block navbar %}
+<div id="navbar" class="navbar navbar-fixed-top nav" role="navigation">
+<!--  <a href="https://github.com/yrq110/TinyGoogle" target="_blank" style="positon:fixed"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a> -->
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand nav_a" href="/">
+          Company Search
+        </a>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<div class="container" id="content">
+
+  {% if not results %}
+  <div class="page-header">
+
+    <p style="text-align:center">
+      <img src="/static/images/branding/logo.jpg" alt="logo" width=30%>
+    </p>
+
+  </div>
+  {% endif %}
+
+  <div class="row" id="inputBar">
+      {% if q %}
+        <input id="inputFieldAddress" type="text" class="form-control" value={{ a }}>
+        <input id="inputFieldQuery" type="text" class="form-control" value = {{ q }}>
+      {% else %}
+        <input id="inputFieldAddress" type="text" class="form-control" placeholder="住所（都道府県／市区町村）を入力">
+        <input id="inputFieldQuery" type="text" class="form-control" placeholder="事業を表すキーワードを入力">
+      {% endif %}
+  </div>
+
+  <div class="btn-group" id="ctrlBtn" role="group">
+    <button id="searchBtn" class="btn btn-default" type="button">Go!</button>
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span>Max Search</span>
+    </button>
+    <ul class="dropdown-menu">
+          <h6 class="dropdown-header">Select Max Search #</h6>
+        {% for num in input %}
+          <li><a href="#" data-value={{num}}>{{num}}</a></li>
+        {% endfor %}
+    </ul>
+    <input id="maxNum" type="hidden" name="dropdown-value" value="">
+  </div>
+
+  <br><br>
+
+  {% if error %}
+
+    <div class="alert alert-warning" role="alert">Errors occured</div>
+    <div class="alert alert-danger" role="alert">{{ error_msg }}</div>
+
+  {% else %}
+
+    {% if search_info %}
+      <div class="alert alert-success" role="alert">{{ search_info }}</div>
+    {% endif %}
+
+    {% for result in results %}
+      <!-- xs-only -->
+      <div id="result_container" class="panel container visible-lg-block visible-md-block visible-sm-block visible-xs-block">
+        <h4><a href = {{ result.title_url }} target="_blank" >{{ result.title|safe }}</a></h4>
+        <h5 id="r_title_link" style="font-size:13px;color:#008000">{{ result.title_url|safe }}</h5>
+        <div id="r_snippet" style="font-size:16px;text">{{ result.description|safe }}</div>
+
+        {% for key,link in result.link_url.items() %}
+          <div id="link_url" style="font-size:16px;text"><a href = {{ link }} target="_blank" >{{ key|safe }}へのリンク</a></div>
+        {% endfor %}
+
+        {% if result.keywords %}
+          <div id="keywords" style="font-size:14px">キーワード：{{ result.keywords|safe }}</div>
+        {% endif %}
+        {% if result.keywords_extracted %}
+          <div id="keywords_extracted" style="font-size:14px">サイトから抽出されたキーワード：{{ result.keywords_extracted|safe }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+  {% endif %}
+</div>
+
+
+<!-- <script src='/static/js/piko.js'></script> -->
+
+<div class="footer" id="footer">
+  <div class="container">
+    <br>
+    <p>Designed and built by Concerto</p>
+    <p>Powered by  <a href="https://github.com/megagonlabs/ginza" target="_blank">GiNZA </a> , <a href="http://flask.pocoo.org/" target="_blank">Flask</a> and <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  {{super()}}
+  <script type="text/javascript" src="/static/js/index.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function () {
+    // $("#content").empty();
+  });
+  </script>
+
+{% endblock %}
