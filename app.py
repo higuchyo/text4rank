@@ -4,7 +4,7 @@ from flask_bootstrap import Bootstrap
 import urllib
 import json, sys
 import requests
-from concurrent_crawl import concurrent_crawl
+from crawl.concurrent_crawl import concurrent_crawl
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -42,7 +42,6 @@ def query():
                 response = requests.request("GET", url, params=query_string)
                 json_data = json.loads(response.text)
                 hit = json_data["queries"]["request"][0]["totalResults"]
-                print(hit)
 
                 try:
                     if json_data['items']:
@@ -60,7 +59,6 @@ def query():
 
         #検索結果の親urlからcrawling
         results=concurrent_crawl(url_list)
-        print(url_list)
         #結果はdict型：'title','description','keywords','link_url'（リンクのtextをkeyとしたdict型）,'keywords_extracted'
 
         if results:
@@ -69,10 +67,10 @@ def query():
             num_result=0
 
             for result in results:
-                print(result)
-                if 'link_url' in list(result.keys()):
-                    num_result+=1
-                    output.append(result)
+                if result:
+                    if 'link_url' in list(result.keys()):
+                        num_result+=1
+                        output.append(result)
                 else:
                     continue
 
