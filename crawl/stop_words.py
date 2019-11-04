@@ -316,10 +316,15 @@ mm
 reg
 etc
 TEL
+TEL.
+Tel.
+tel.
 Tel
 tel
 FAX
 FAX.
+Fax.
+fax.
 a
 b
 c
