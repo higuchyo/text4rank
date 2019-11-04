@@ -68,7 +68,7 @@ def query():
 
             for result in results:
                 if result:
-                    #print(result)
+                    print(result)
                     if 'link_url' in list(result.keys()):
                         num_result+=1
                         output.append(result)
