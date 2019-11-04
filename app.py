@@ -60,7 +60,7 @@ def query():
 
         #検索結果の親urlからcrawling
         results=concurrent_crawl(url_list)
-        print(url_list)
+        #print(url_list)
         #結果はdict型：'title','description','keywords','link_url'（リンクのtextをkeyとしたdict型）,'keywords_extracted'
 
         if results:
@@ -69,10 +69,11 @@ def query():
             num_result=0
 
             for result in results:
-                print(result)
-                if 'link_url' in list(result.keys()):
-                    num_result+=1
-                    output.append(result)
+                if result:
+                    print(result)
+                    if 'link_url' in list(result.keys()):
+                        num_result+=1
+                        output.append(result)
                 else:
                     continue
 
